@@ -2,6 +2,15 @@
   "name": "ReQuests",
   "description": "A web requests library for Reason(ML), based on cURL and libuv.",
   "author": "zbaylin",
+  "scripts": {
+    "format": "esy bash -c \"dune build @fmt --auto-promote\""
+  },
+  "esy": {
+    "build": "dune build -p ReQuests",
+    "install": [
+      "esy-installer ReQuests.install"
+    ]
+  },
   "dependencies": {
     "@opam/ocurl": "^0.9.1",
     "@opam/luv": "*",
