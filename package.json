@@ -1,0 +1,17 @@
+{
+  "name": "ReQuests",
+  "description": "A web requests library for Reason(ML), based on cURL and libuv.",
+  "author": "zbaylin",
+  "dependencies": {
+    "@opam/ocurl": "^0.9.1",
+    "@opam/luv": "*",
+    "@opam/luv_unix": "*",
+    "@opam/dune": "^2.8.2",
+    "@opam/reason": "^3.7.0"
+  },
+  "resolutions": {
+    "@opam/luv": "aantron/luv:luv.opam#decdaad",
+    "@opam/luv_unix": "aantron/luv:luv_unix.opam#decdaad",
+    "ocaml": "4.12.0"
+  }
+}
