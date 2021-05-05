@@ -1,0 +1,4 @@
+(library
+ (name ReQuests)
+ (public_name ReQuests)
+ (libraries curl luv luv_unix))
