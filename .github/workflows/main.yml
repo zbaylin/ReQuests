@@ -1,0 +1,29 @@
+name: Continuous Integration
+
+# Controls when the action will run. 
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@1
+        with:
+          node-version: 16.x
+      - name: Install esy 0.6.10
+        run: npm install --global esy@0.6.10
+      - name: Install dependencies
+        run: esy install
+      - name: Build library
+        run: esy build
