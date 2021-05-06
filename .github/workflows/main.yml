@@ -13,7 +13,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
 
@@ -26,8 +26,6 @@ jobs:
         run: |
               if [ "$RUNNER_OS" == "Linux" ]; then
                 sudo apt-get install -y libcurl4-openssl-dev
-              elif [ "$RUNNER_OS" == "Windows" ]; then
-                choco install curl
               elif [ "$RUNNER_OS" == "macOS" ]; then
                 brew install curl
                 brew link curl --force
@@ -51,16 +49,8 @@ jobs:
       - name: Install esy 0.6.10
         run: npm install --global esy@0.6.10
 
-      - name: Install windows-build-tools (Windows only)
-        run: |
-              if [ "$RUNNER_OS" == "Windows" ]; then
-                npm install --global windows-build-tools
-              fi
-        shell: bash
-        
       - name: Install dependencies
         run: esy install
 
       - name: Build library
         run: esy build
-        shell: bash
