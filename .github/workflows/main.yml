@@ -32,13 +32,12 @@ jobs:
               fi
         shell: bash
 
-      - name: Cache dependency builds
-        uses: actions/cache@v1
-        with:
-          path: _esy/
-          key: ${{ runner.OS }}-esy-cache-${{ hashFiles('esy.lock/') }}
-          restore-keys: |
-            ${{ runner.OS }}-esy-cache-
+      - name: Refresh environment (Windows only)
+        run: |
+              if [ "$RUNNER_OS" == "Windows" ]; then
+                refreshenv
+              fi
+        shell: bash
 
       - name: Install libcurl
         run: |
@@ -51,6 +50,15 @@ jobs:
                 brew link curl --force
               fi
         shell: bash
+
+      - name: Cache dependency builds
+        uses: actions/cache@v1
+        with:
+          path: ~/.esy
+          key: ${{ runner.OS }}-esy-cache-${{ hashFiles('esy.lock/') }}
+          restore-keys: |
+            ${{ runner.OS }}-esy-cache-
+
 
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
