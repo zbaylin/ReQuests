@@ -32,13 +32,6 @@ jobs:
               fi
         shell: bash
 
-      - name: Refresh environment (Windows only)
-        run: |
-              if [ "$RUNNER_OS" == "Windows" ]; then
-                refreshenv
-              fi
-        shell: bash
-
       - name: Install libcurl
         run: |
               if [ "$RUNNER_OS" == "Linux" ]; then
@@ -73,3 +66,4 @@ jobs:
 
       - name: Build library
         run: esy build
+        shell: bash
