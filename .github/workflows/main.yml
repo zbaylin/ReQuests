@@ -27,6 +27,7 @@ jobs:
               if [ "$RUNNER_OS" == "Windows" ]; then
                 choco install visualstudio2019buildtools
               fi
+        shell: bash
 
       - name: Cache dependency builds
         uses: actions/cache@v1
