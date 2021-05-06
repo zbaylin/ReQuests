@@ -29,6 +29,13 @@ jobs:
               fi
         shell: bash
 
+      - name: Run cl.exe (Windows only)
+        run: |
+              if [ "$RUNNER_OS" == "Windows" ]; then
+                cl.exe 
+              fi
+        shell: bash
+
       - name: Cache dependency builds
         uses: actions/cache@v1
         with:
