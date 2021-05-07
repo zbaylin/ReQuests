@@ -1,3 +1,13 @@
+module Log = {
+  include (val Timber.Log.withNamespace("ReQuests.Core"));
+
+  let warnLuvError = (res: Result.t(_, Luv.Error.t)) =>
+    switch (res) {
+    | Ok(_) => ()
+    | Error(err) => warnf(f => f("Luv error: %s", Luv.Error.err_name(err)))
+    };
+};
+
 module Multi = Curl.Multi;
 module HandleIDGenerator =
   IDGenerator.Make({});
@@ -39,7 +49,7 @@ let perform =
     ) =>
   res
   |> Result.iter(events => {
-       Luv.Timer.stop(timer) |> ignore;
+       Luv.Timer.stop(timer) |> Log.warnLuvError;
        let flag =
          if (List.mem(`READABLE, events) && List.mem(`WRITABLE, events)) {
            Multi.EV_INOUT;
@@ -83,7 +93,7 @@ let handleSocket =
   | Multi.POLL_REMOVE =>
     Hashtbl.find_opt(socketPollHandleTable, fd)
     |> Option.iter(pollHandle => {
-         Luv.Poll.stop(pollHandle) |> ignore;
+         Luv.Poll.stop(pollHandle) |> Log.warnLuvError;
          Hashtbl.remove(socketPollHandleTable, fd);
        })
   | _ => ()
@@ -134,17 +144,19 @@ let perform = (~onResponse=_ => (), request: Request.t) => {
   Curl.set_writefunction(handle, writeFunc);
 
   Multi.add(multi, handle);
-  Printf.eprintf("Added URL: %s\n", request.url);
+  Log.infof(f => f("Enqueued request: %s", request.url));
 };
 
 let startTimeout = (timer: Luv.Timer.t, timeoutMs: int) => {
   let timeoutMs = timeoutMs <= 0 ? 1 : timeoutMs;
-  Luv.Timer.start(timer, timeoutMs, onTimeout) |> ignore;
+  Luv.Timer.start(timer, timeoutMs, onTimeout) |> Log.warnLuvError;
 };
 
-let init = () =>
+let init = () => {
   Luv.Timer.init()
-  |> Result.iter(timer => {
+  |> ResultEx.apply(timer => {
        Multi.set_socket_function(multi, handleSocket(timer));
        Multi.set_timer_function(multi, startTimeout(timer));
-     });
+     })
+  |> Log.warnLuvError;
+};
