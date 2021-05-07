@@ -40,6 +40,7 @@ let perform =
     ) =>
   res
   |> Result.iter(events => {
+       Luv.Timer.stop(timer) |> ignore;
        let flag =
          if (List.mem(`READABLE, events) && List.mem(`WRITABLE, events)) {
            Multi.EV_INOUT;
