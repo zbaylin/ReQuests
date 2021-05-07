@@ -1,0 +1,48 @@
+name: Continuous Integration
+
+# Controls when the action will run. 
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Install libcurl
+        run: sudo apt-get install -y libcurl4-openssl-dev
+
+      - name: Cache dependency builds
+        uses: actions/cache@v1
+        with:
+          path: ~/.esy
+          key: ${{ runner.OS }}-esy-dep-cache-${{ hashFiles('esy.lock/') }}
+          restore-keys: |
+            ${{ runner.OS }}-esy-dep-cache-
+
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install esy 0.6.10
+        run: npm install --global esy@0.6.10
+
+      - name: Install dependencies
+        run: esy install
+
+      - name: Check formatting
+        run: esy format
+
+      - name: Build library w/ @check
+        run: esy b dune build @check
