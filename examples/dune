@@ -1,0 +1,5 @@
+(executables
+ (names BasicExample)
+ (package ReQuestsExamples)
+ (public_names BasicExample)
+ (libraries ReQuests curl luv))

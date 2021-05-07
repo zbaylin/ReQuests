@@ -1,14 +1,32 @@
 module Multi = Curl.Multi;
+module HandleIDGenerator =
+  IDGenerator.Make({});
+
+type onComplete = Curl.curlCode => unit;
+type onResponse = Response.t => unit;
 
 let multi = Multi.create();
 
 let socketPollHandleTable: Hashtbl.t(Unix.file_descr, Luv.Poll.t) =
   Hashtbl.create(32);
 
+module CurlHandleHashTable =
+  Hashtbl.Make({
+    type t = Curl.t;
+    let hash = handle => Curl.get_private(handle) |> Hashtbl.hash;
+    let equal = (handle1, handle2) =>
+      String.equal(Curl.get_private(handle1), Curl.get_private(handle2));
+  });
+
+let curlHandleToCallbackTable: CurlHandleHashTable.t(onComplete) =
+  CurlHandleHashTable.create(32);
+
 let rec checkInfo = () => {
   switch (Multi.remove_finished(multi)) {
-  | Some((handle, _)) =>
-    Printf.printf("DONE: %s\n", Curl.get_effectiveurl(handle));
+  | Some((handle, code)) =>
+    CurlHandleHashTable.find_opt(curlHandleToCallbackTable, handle)
+    |> Option.iter(onComplete => onComplete(code));
+
     checkInfo();
   | None => ()
   };
@@ -64,7 +82,10 @@ let handleSocket =
        })
   | Multi.POLL_REMOVE =>
     Hashtbl.find_opt(socketPollHandleTable, fd)
-    |> Option.iter(pollHandle => Luv.Poll.stop(pollHandle) |> ignore)
+    |> Option.iter(pollHandle => {
+         Luv.Poll.stop(pollHandle) |> ignore;
+         Hashtbl.remove(socketPollHandleTable, fd);
+       })
   | _ => ()
   };
 };
@@ -74,12 +95,28 @@ let onTimeout = () => {
   checkInfo();
 };
 
-let addUrl = (url: string) => {
+let createOnComplete: (Buffer.t, onResponse) => onComplete =
+  (buffer, onResponse, curlCode) => {
+    let response = Response.{code: curlCode, body: buffer};
+    onResponse(response);
+  };
+
+let addUrl = (~onResponse=_ => (), url: string) => {
   let handle = Curl.init();
+  let responseBuffer = Buffer.create(128);
+
+  let id = HandleIDGenerator.getID() |> string_of_int;
+  Curl.set_private(handle, id);
+
+  let onComplete: onComplete = createOnComplete(responseBuffer, onResponse);
+
+  CurlHandleHashTable.replace(curlHandleToCallbackTable, handle, onComplete);
+
   let writeFunc = str => {
-    Printf.eprintf("%s", str);
+    Buffer.add_string(responseBuffer, str);
     String.length(str);
   };
+
   Curl.set_writefunction(handle, writeFunc);
   Curl.set_url(handle, url);
 
@@ -94,7 +131,7 @@ let startTimeout = (timer: Luv.Timer.t, timeoutMs: int) => {
 
 let init = () =>
   Luv.Timer.init()
-  |> ResultEx.apply(timer => {
+  |> Result.iter(timer => {
        Multi.set_socket_function(multi, handleSocket(timer));
        Multi.set_timer_function(multi, startTimeout(timer));
      });
