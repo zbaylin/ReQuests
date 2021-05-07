@@ -50,7 +50,10 @@ jobs:
         run: npm install --global esy@0.6.10
 
       - name: Install dependencies
-        run: esy install
+        run: ./install-dependencies.sh
 
       - name: Build library
         run: esy build
+
+      - name: Run BasicExample
+        run: esy @examples x BasicExample
