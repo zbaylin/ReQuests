@@ -1,0 +1,13 @@
+{
+  "source": "./package.json",
+  "scripts": {
+    "run": "esy @examples x BasicExample"
+  },
+  "override": {
+    "build": "dune build -p ReQuests,ReQuestsExamples",
+    "install": [
+      "esy-installer ReQuests.install",
+      "esy-installer ReQuestsExamples.install"
+    ]
+  }
+}

@@ -5,3 +5,6 @@
 
 (package
  (name ReQuests))
+
+(package
+ (name ReQuestsExamples))
