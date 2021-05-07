@@ -1,8 +1,25 @@
 module Request: {
-  type method = [ | `GET | `POST];
+  type method = [
+    | `GET
+    | `POST
+    | `PUT
+    | `HEAD
+    | `DELETE
+    | `CONNECT
+    | `OPTIONS
+    | `TRACE
+    | `PATCH
+  ];
   type t;
 
-  let make: (~method: method=?, string) => t;
+  let make:
+    (
+      ~method: method=?,
+      ~headers: list(string)=?,
+      ~followRedirects: bool=?,
+      string
+    ) =>
+    t;
   let url: t => string;
 };
 

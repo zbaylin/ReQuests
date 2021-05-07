@@ -18,11 +18,15 @@ let () = {
       )
     };
 
-  let googleRequest = Request.make("https://google.com");
-  let errorRequest = Request.make("https://google.commm");
-
-  ReQuests.perform(~onResponse, googleRequest);
-  ReQuests.perform(~onResponse, errorRequest);
+  ReQuests.perform(~onResponse, Request.make("https://google.com"));
+  ReQuests.perform(~onResponse, Request.make("https://google.comm"));
+  ReQuests.perform(
+    ~onResponse,
+    Request.make(
+      ~headers=["Client: ReQuests"],
+      "https://httpbin.org/headers",
+    ),
+  );
 
   Luv.Loop.run(~mode=`DEFAULT, ()) |> ignore;
 };

@@ -1,15 +1,6 @@
 module Multi = Curl.Multi;
 module HandleIDGenerator =
   IDGenerator.Make({});
-
-type onComplete = Curl.curlCode => unit;
-type onResponse = Response.t => unit;
-
-let multi = Multi.create();
-
-let socketPollHandleTable: Hashtbl.t(Unix.file_descr, Luv.Poll.t) =
-  Hashtbl.create(32);
-
 module CurlHandleHashTable =
   Hashtbl.Make({
     type t = Curl.t;
@@ -18,8 +9,16 @@ module CurlHandleHashTable =
       String.equal(Curl.get_private(handle1), Curl.get_private(handle2));
   });
 
+type onComplete = Curl.curlCode => unit;
+type onResponse = Response.t => unit;
+
+let multi = Multi.create();
+
+let socketPollHandleTable: Hashtbl.t(Unix.file_descr, Luv.Poll.t) =
+  Hashtbl.create(Constants.initialSocketTableSize);
+
 let curlHandleToCallbackTable: CurlHandleHashTable.t(onComplete) =
-  CurlHandleHashTable.create(32);
+  CurlHandleHashTable.create(Constants.initialCurlHandleTableSize);
 
 let rec checkInfo = () => {
   switch (Multi.remove_finished(multi)) {
@@ -117,7 +116,7 @@ let createOnComplete: (Request.t, Curl.t, Buffer.t, onResponse) => onComplete =
   };
 
 let perform = (~onResponse=_ => (), request: Request.t) => {
-  let handle = Curl.init();
+  let handle = Request.makeCurlHandle(request);
   let responseBuffer = Buffer.create(128);
 
   let id = HandleIDGenerator.getID() |> string_of_int;
@@ -125,7 +124,6 @@ let perform = (~onResponse=_ => (), request: Request.t) => {
 
   let onComplete: onComplete =
     createOnComplete(request, handle, responseBuffer, onResponse);
-
   CurlHandleHashTable.replace(curlHandleToCallbackTable, handle, onComplete);
 
   let writeFunc = str => {
@@ -134,7 +132,6 @@ let perform = (~onResponse=_ => (), request: Request.t) => {
   };
 
   Curl.set_writefunction(handle, writeFunc);
-  Curl.set_url(handle, request.url);
 
   Multi.add(multi, handle);
   Printf.eprintf("Added URL: %s\n", request.url);
