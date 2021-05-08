@@ -1,3 +1,9 @@
+module Proxy: {
+  type t;
+
+  let make: (~http: string=?, ~https: string=?, ~strictSSL: bool=?, unit) => t;
+};
+
 module Request: {
   type method = [
     | `GET
@@ -17,6 +23,7 @@ module Request: {
       ~method: method=?,
       ~headers: list(string)=?,
       ~followRedirects: bool=?,
+      ~proxy: Proxy.t=?,
       string
     ) =>
     t;

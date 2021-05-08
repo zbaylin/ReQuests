@@ -15,13 +15,15 @@ type t = {
   method,
   headers: option(list(string)), // Optional since the set_httpheader function can override other actions
   followRedirects: bool,
+  proxy: option(Proxy.t),
 };
 
-let make = (~method=`GET, ~headers=?, ~followRedirects=false, url) => {
+let make = (~method=`GET, ~headers=?, ~followRedirects=false, ~proxy=?, url) => {
   method,
   headers,
   followRedirects,
   url,
+  proxy,
 };
 
 let url = request => request.url;
@@ -32,6 +34,7 @@ let makeCurlHandle: t => Curl.t =
 
     // URL
     Curl.set_url(handle, request.url);
+    let isHTTPS = StringEx.startsWith(request.url, "https://");
 
     // HTTP method
     switch (request.method) {
@@ -51,6 +54,19 @@ let makeCurlHandle: t => Curl.t =
 
     // Follow redirects
     Curl.set_followlocation(handle, request.followRedirects);
+
+    // Proxy
+    request.proxy
+    |> Option.iter(proxy => {
+         switch (proxy) {
+         | Proxy.{https: Some(url), _} when isHTTPS =>
+           Curl.set_proxy(handle, url) // Only use the HTTPS proxy if the URL contains it
+         | Proxy.{http: Some(url), _} => Curl.set_proxy(handle, url)
+         | _ => ()
+         };
+
+         Curl.set_sslverifypeer(handle, proxy.strictSSL);
+       });
 
     handle;
   };

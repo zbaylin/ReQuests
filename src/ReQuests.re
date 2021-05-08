@@ -1,3 +1,4 @@
+module Proxy = Proxy;
 module Request = Request;
 module Response = Response;
 
