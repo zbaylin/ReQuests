@@ -16,14 +16,24 @@ type t = {
   headers: option(list(string)), // Optional since the set_httpheader function can override other actions
   followRedirects: bool,
   proxy: option(Proxy.t),
+  timeout: int,
 };
 
-let make = (~method=`GET, ~headers=?, ~followRedirects=false, ~proxy=?, url) => {
+let make =
+    (
+      ~method=`GET,
+      ~headers=?,
+      ~followRedirects=false,
+      ~proxy=?,
+      ~timeout=0,
+      url,
+    ) => {
   method,
   headers,
   followRedirects,
   url,
   proxy,
+  timeout,
 };
 
 let url = request => request.url;
@@ -67,6 +77,9 @@ let makeCurlHandle: t => Curl.t =
 
          Curl.set_sslverifypeer(handle, proxy.strictSSL);
        });
+
+    // Timeout
+    Curl.set_timeout(handle, request.timeout);
 
     handle;
   };
