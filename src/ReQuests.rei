@@ -24,6 +24,7 @@ module Request: {
       ~headers: list(string)=?,
       ~followRedirects: bool=?,
       ~proxy: Proxy.t=?,
+      ~timeout: int=?,
       string
     ) =>
     t;
