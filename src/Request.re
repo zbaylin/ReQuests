@@ -63,7 +63,9 @@ let makeCurlHandle: t => Curl.t =
            Curl.set_proxy(handle, url) // Only use the HTTPS proxy if the URL contains it
          | Proxy.{http: Some(url), _} => Curl.set_proxy(handle, url)
          | _ => ()
-         }
+         };
+
+         Curl.set_sslverifypeer(handle, proxy.strictSSL);
        });
 
     handle;
