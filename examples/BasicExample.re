@@ -10,9 +10,10 @@ let () = {
     | Ok(response) =>
       Log.infof(f =>
         f(
-          "Successfully fetched %s:\n%s\n",
+          "Successfully fetched %s:\n%s\nHeader:%s",
           response |> Response.request |> Request.url,
           response |> Response.body,
+          response |> Response.headers |> String.concat("\n"),
         )
       )
     | Error(err) =>
@@ -26,7 +27,10 @@ let () = {
     };
 
   ReQuests.perform(~onResponse, Request.make("https://google.com"));
-  ReQuests.perform(~onResponse, Request.make("https://google.comm"));
+  ReQuests.perform(
+    ~onResponse,
+    Request.make("https://google.com/thisshould404"),
+  );
   ReQuests.perform(
     ~onResponse,
     Request.make(

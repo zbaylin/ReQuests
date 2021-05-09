@@ -105,8 +105,9 @@ let onTimeout = () => {
   checkInfo();
 };
 
-let createOnComplete: (Request.t, Curl.t, Buffer.t, onResponse) => onComplete =
-  (request', curlHandle, buffer, onResponse, curlCode) => {
+let createOnComplete:
+  (Request.t, Curl.t, Buffer.t, Buffer.t, onResponse) => onComplete =
+  (request', curlHandle, responseBuffer, headerBuffer, onResponse, curlCode) => {
     let response =
       switch (curlCode) {
       | Curl.CURLE_OK =>
@@ -114,7 +115,9 @@ let createOnComplete: (Request.t, Curl.t, Buffer.t, onResponse) => onComplete =
           Response.{
             request: request',
             curlHandle,
-            body: Buffer.contents(buffer),
+            body: Buffer.contents(responseBuffer),
+            headers:
+              Buffer.contents(headerBuffer) |> String.split_on_char('\n'),
           },
         )
       | _ =>
@@ -125,23 +128,31 @@ let createOnComplete: (Request.t, Curl.t, Buffer.t, onResponse) => onComplete =
     onResponse(response);
   };
 
+let bufferFunc = (buffer, str) => {
+  Buffer.add_string(buffer, str);
+  String.length(str);
+};
+
 let perform = (~onResponse=_ => (), request: Request.t) => {
   let handle = Request.makeCurlHandle(request);
-  let responseBuffer = Buffer.create(128);
+  let responseBuffer = Buffer.create(Constants.initialBufferSize);
+  let headerBuffer = Buffer.create(Constants.initialBufferSize);
 
   let id = HandleIDGenerator.getID() |> string_of_int;
   Curl.set_private(handle, id);
 
   let onComplete: onComplete =
-    createOnComplete(request, handle, responseBuffer, onResponse);
+    createOnComplete(
+      request,
+      handle,
+      responseBuffer,
+      headerBuffer,
+      onResponse,
+    );
   CurlHandleHashTable.replace(curlHandleToCallbackTable, handle, onComplete);
 
-  let writeFunc = str => {
-    Buffer.add_string(responseBuffer, str);
-    String.length(str);
-  };
-
-  Curl.set_writefunction(handle, writeFunc);
+  Curl.set_writefunction(handle, bufferFunc(responseBuffer));
+  Curl.set_headerfunction(handle, bufferFunc(headerBuffer));
 
   Multi.add(multi, handle);
   Log.infof(f => f("Enqueued request: %s", request.url));
