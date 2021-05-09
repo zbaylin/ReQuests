@@ -2,6 +2,7 @@ type response = {
   request: Request.t,
   curlHandle: Curl.t,
   body: string,
+  headers: list(string),
 };
 
 module Error = {
@@ -19,3 +20,4 @@ type t = Result.t(response, Error.t);
 
 let request = response => response.request;
 let body = response => response.body;
+let headers = response => response.headers;

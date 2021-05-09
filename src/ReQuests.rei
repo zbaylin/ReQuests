@@ -45,6 +45,7 @@ module Response: {
 
   let request: response => Request.t;
   let body: response => string;
+  let headers: response => list(string);
 };
 
 let init: unit => unit;
