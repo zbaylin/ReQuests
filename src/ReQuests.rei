@@ -46,6 +46,10 @@ module Response: {
   let request: response => Request.t;
   let body: response => string;
   let headers: response => list(string);
+  let responseCode: response => int;
+  let contentType: response => string;
+  let uploadSpeed: response => float;
+  let downloadSpeed: response => float;
 };
 
 let init: unit => unit;
