@@ -39,7 +39,14 @@ jobs:
           key: ${{ runner.OS }}-esy-dep-cache-${{ hashFiles('esy.lock/') }}
           restore-keys: |
             ${{ runner.OS }}-esy-dep-cache-
+      
+      - name: Use Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
+      - name: Install proxy.py
+        run: python -m pip install --upgrade proxy.py
 
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
@@ -57,3 +64,6 @@ jobs:
 
       - name: Run BasicExample
         run: esy @examples x BasicExample
+
+      - name: Run tests
+        run: esy @tests x TestRunner
