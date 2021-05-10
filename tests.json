@@ -1,0 +1,13 @@
+{
+  "source": "./package.json",
+  "override": {
+    "dependencies": {
+      "@reason-native/rely": "^3.2.1"
+    },
+    "build": "dune build -p ReQuests,ReQuestsTests",
+    "install": [
+      "esy-installer ReQuests.install",
+      "esy-installer ReQuestsTests.install"
+    ]
+  }
+}

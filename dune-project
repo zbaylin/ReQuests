@@ -8,3 +8,6 @@
 
 (package
  (name ReQuestsExamples))
+
+(package
+ (name ReQuestsTests))

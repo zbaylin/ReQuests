@@ -19,6 +19,9 @@
     "@opam/reason": "^3.7.0",
     "@revery/timber": "^2.0.0"
   },
+  "devDependencies": {
+    "@reason-native/rely": "^3.2.1"
+  },
   "resolutions": {
     "@opam/luv": "aantron/luv:luv.opam#decdaad",
     "@opam/luv_unix": "aantron/luv:luv_unix.opam#decdaad",
