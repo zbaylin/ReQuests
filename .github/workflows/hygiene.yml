@@ -46,3 +46,13 @@ jobs:
 
       - name: Build library w/ @check
         run: esy b dune build @check
+
+      - name: Generate documentation
+        run: esy generateDocs
+
+      - name: Upload documentation as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: html_documentation
+          path: _esy/default/build/default/_doc/_html/
+
