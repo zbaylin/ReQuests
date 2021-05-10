@@ -50,6 +50,9 @@ jobs:
       - name: Generate documentation
         run: esy generateDocs
 
+      - name: [DEBUG] Tree _esy
+        run: tree _esy
+
       - name: Upload documentation as artifact
         uses: actions/upload-artifact@v2
         with:
