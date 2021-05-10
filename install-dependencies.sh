@@ -2,3 +2,4 @@
 
 esy i
 esy @examples i
+esy @tests i
