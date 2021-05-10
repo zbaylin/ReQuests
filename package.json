@@ -20,6 +20,7 @@
     "@revery/timber": "^2.0.0"
   },
   "devDependencies": {
+    "@opam/yojson": "^1.7.0",
     "@reason-native/rely": "^3.2.1"
   },
   "resolutions": {
