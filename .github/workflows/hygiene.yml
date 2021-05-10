@@ -44,14 +44,14 @@ jobs:
       - name: Check formatting
         run: esy format
 
+      - name: Build library
+        run: esy b
+
       - name: Build library w/ @check
         run: esy b dune build @check
 
       - name: Generate documentation
         run: esy generateDocs
-
-      - name: DEBUG Tree _esy
-        run: tree _esy
 
       - name: Upload documentation as artifact
         uses: actions/upload-artifact@v2
