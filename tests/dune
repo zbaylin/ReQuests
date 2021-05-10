@@ -2,4 +2,4 @@
  (names TestRunner)
  (package ReQuestsTests)
  (public_names TestRunner)
- (libraries ReQuests rely.lib luv))
+ (libraries ReQuests rely.lib luv yojson))
