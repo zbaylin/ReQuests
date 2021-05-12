@@ -3,8 +3,7 @@
   "description": "A web requests library for Reason(ML), based on cURL and libuv.",
   "author": "zbaylin",
   "scripts": {
-    "format": "esy bash -c \"dune build @fmt --auto-promote\"",
-    "generateDocs": "esy b dune build @doc -p ReQuests"
+    "format": "esy bash -c \"dune build @fmt --auto-promote\""
   },
   "esy": {
     "build": "dune build -p ReQuests",
@@ -13,15 +12,14 @@
     ]
   },
   "dependencies": {
-    "@opam/ocurl": "^0.9.1",
     "@opam/luv": "*",
     "@opam/luv_unix": "*",
     "@opam/dune": "^2.8.2",
     "@opam/reason": "^3.7.0",
-    "@revery/timber": "^2.0.0"
+    "@revery/timber": "^2.0.0",
+    "esy-ocurl": "zbaylin/esy-ocurl#d634f41"
   },
   "devDependencies": {
-    "@opam/odoc": "^1.5.2",
     "@opam/yojson": "^1.7.0",
     "@reason-native/rely": "^3.2.1"
   },
