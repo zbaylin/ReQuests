@@ -1,23 +1,7 @@
 {
-  "checksum": "0c434a1b208a1a21ee5e41d597fa59d2",
+  "checksum": "ac6be3e610e6e8b4d451b0cd5d4ac300",
   "root": "ReQuests@link-dev:./package.json",
   "node": {
-    "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79@d41d8cd9": {
-      "id":
-        "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79@d41d8cd9",
-      "name": "yarn-pkg-config",
-      "version":
-        "github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79",
-      "source": {
-        "type": "install",
-        "source": [
-          "github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79"
-        ]
-      },
-      "overrides": [],
-      "dependencies": [],
-      "devDependencies": []
-    },
     "ocaml@4.12.0@d41d8cd9": {
       "id": "ocaml@4.12.0@d41d8cd9",
       "name": "ocaml",
@@ -27,6 +11,35 @@
         "source": [
           "archive:https://registry.npmjs.org/ocaml/-/ocaml-4.12.0.tgz#sha1:2a979f37535faaded8aa3fdf82b6f16f2c71e284"
         ]
+      },
+      "overrides": [],
+      "dependencies": [],
+      "devDependencies": []
+    },
+    "esy-ocurl@github:zbaylin/esy-ocurl#d634f41@d41d8cd9": {
+      "id": "esy-ocurl@github:zbaylin/esy-ocurl#d634f41@d41d8cd9",
+      "name": "esy-ocurl",
+      "version": "github:zbaylin/esy-ocurl#d634f41",
+      "source": {
+        "type": "install",
+        "source": [ "github:zbaylin/esy-ocurl#d634f41" ]
+      },
+      "overrides": [],
+      "dependencies": [
+        "esy-libcurl@github:zbaylin/esy-libcurl#02fb459@d41d8cd9",
+        "@opam/ocamlfind@opam:1.9.1@b748edf6",
+        "@opam/dune-configurator@opam:2.8.5@eae07e15",
+        "@opam/dune@opam:2.8.5@83fb0224"
+      ],
+      "devDependencies": []
+    },
+    "esy-libcurl@github:zbaylin/esy-libcurl#02fb459@d41d8cd9": {
+      "id": "esy-libcurl@github:zbaylin/esy-libcurl#02fb459@d41d8cd9",
+      "name": "esy-libcurl",
+      "version": "github:zbaylin/esy-libcurl#02fb459",
+      "source": {
+        "type": "install",
+        "source": [ "github:zbaylin/esy-libcurl#02fb459" ]
       },
       "overrides": [],
       "dependencies": [],
@@ -43,8 +56,8 @@
       },
       "overrides": [],
       "dependencies": [
+        "esy-ocurl@github:zbaylin/esy-ocurl#d634f41@d41d8cd9",
         "@revery/timber@2.0.0@d41d8cd9", "@opam/reason@opam:3.7.0@191be014",
-        "@opam/ocurl@opam:0.9.1@3b52fd09",
         "@opam/luv_unix@github:aantron/luv:luv_unix.opam#decdaad@d41d8cd9",
         "@opam/luv@github:aantron/luv:luv.opam#decdaad@d41d8cd9",
         "@opam/dune@opam:2.8.5@83fb0224"
@@ -494,40 +507,6 @@
         "@opam/astring@opam:0.8.5@1300cee8"
       ]
     },
-    "@opam/ocurl@opam:0.9.1@3b52fd09": {
-      "id": "@opam/ocurl@opam:0.9.1@3b52fd09",
-      "name": "@opam/ocurl",
-      "version": "opam:0.9.1",
-      "source": {
-        "type": "install",
-        "source": [
-          "archive:https://opam.ocaml.org/cache/md5/1f/1ff6b12803fa0c6e9a4358dd29b83910#md5:1ff6b12803fa0c6e9a4358dd29b83910",
-          "archive:https://github.com/ygrek/ocurl/releases/download/0.9.1/ocurl-0.9.1.tar.gz#md5:1ff6b12803fa0c6e9a4358dd29b83910",
-          "archive:https://ygrek.org/p/release/ocurl/ocurl-0.9.1.tar.gz#md5:1ff6b12803fa0c6e9a4358dd29b83910"
-        ],
-        "opam": {
-          "name": "ocurl",
-          "version": "0.9.1",
-          "path": "esy.lock/opam/ocurl.0.9.1"
-        }
-      },
-      "overrides": [
-        {
-          "opamoverride":
-            "esy.lock/overrides/opam__s__ocurl_opam__c__0.9.1_opam_override"
-        }
-      ],
-      "dependencies": [
-        "ocaml@4.12.0@d41d8cd9", "@opam/ocamlfind@opam:1.9.1@b748edf6",
-        "@opam/conf-libcurl@opam:1@a448c0a3",
-        "@opam/base-unix@opam:base@87d0b2eb",
-        "@esy-ocaml/substs@0.0.1@d41d8cd9"
-      ],
-      "devDependencies": [
-        "ocaml@4.12.0@d41d8cd9", "@opam/conf-libcurl@opam:1@a448c0a3",
-        "@opam/base-unix@opam:base@87d0b2eb"
-      ]
-    },
     "@opam/ocamlfind@opam:1.9.1@b748edf6": {
       "id": "@opam/ocamlfind@opam:1.9.1@b748edf6",
       "name": "@opam/ocamlfind",
@@ -921,6 +900,33 @@
         "ocaml@4.12.0@d41d8cd9", "@opam/dune@opam:2.8.5@83fb0224"
       ]
     },
+    "@opam/dune-configurator@opam:2.8.5@eae07e15": {
+      "id": "@opam/dune-configurator@opam:2.8.5@eae07e15",
+      "name": "@opam/dune-configurator",
+      "version": "opam:2.8.5",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://opam.ocaml.org/cache/sha256/79/79011283fb74c7a27eb17ad752efbcc39b39633cbacc8d7be97e8ea869443629#sha256:79011283fb74c7a27eb17ad752efbcc39b39633cbacc8d7be97e8ea869443629",
+          "archive:https://github.com/ocaml/dune/releases/download/2.8.5/dune-2.8.5.tbz#sha256:79011283fb74c7a27eb17ad752efbcc39b39633cbacc8d7be97e8ea869443629"
+        ],
+        "opam": {
+          "name": "dune-configurator",
+          "version": "2.8.5",
+          "path": "esy.lock/opam/dune-configurator.2.8.5"
+        }
+      },
+      "overrides": [],
+      "dependencies": [
+        "ocaml@4.12.0@d41d8cd9", "@opam/result@opam:1.5@6b753c82",
+        "@opam/dune@opam:2.8.5@83fb0224", "@opam/csexp@opam:1.5.1@f2f16ef6",
+        "@esy-ocaml/substs@0.0.1@d41d8cd9"
+      ],
+      "devDependencies": [
+        "ocaml@4.12.0@d41d8cd9", "@opam/result@opam:1.5@6b753c82",
+        "@opam/dune@opam:2.8.5@83fb0224", "@opam/csexp@opam:1.5.1@f2f16ef6"
+      ]
+    },
     "@opam/dune@opam:2.8.5@83fb0224": {
       "id": "@opam/dune@opam:2.8.5@83fb0224",
       "name": "@opam/dune",
@@ -981,6 +987,31 @@
         "@opam/bigarray-compat@opam:1.0.0@3a87ad65"
       ]
     },
+    "@opam/csexp@opam:1.5.1@f2f16ef6": {
+      "id": "@opam/csexp@opam:1.5.1@f2f16ef6",
+      "name": "@opam/csexp",
+      "version": "opam:1.5.1",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://opam.ocaml.org/cache/sha256/d6/d605e4065fa90a58800440ef2f33a2d931398bf2c22061a8acb7df845c0aac02#sha256:d605e4065fa90a58800440ef2f33a2d931398bf2c22061a8acb7df845c0aac02",
+          "archive:https://github.com/ocaml-dune/csexp/releases/download/1.5.1/csexp-1.5.1.tbz#sha256:d605e4065fa90a58800440ef2f33a2d931398bf2c22061a8acb7df845c0aac02"
+        ],
+        "opam": {
+          "name": "csexp",
+          "version": "1.5.1",
+          "path": "esy.lock/opam/csexp.1.5.1"
+        }
+      },
+      "overrides": [],
+      "dependencies": [
+        "ocaml@4.12.0@d41d8cd9", "@opam/dune@opam:2.8.5@83fb0224",
+        "@esy-ocaml/substs@0.0.1@d41d8cd9"
+      ],
+      "devDependencies": [
+        "ocaml@4.12.0@d41d8cd9", "@opam/dune@opam:2.8.5@83fb0224"
+      ]
+    },
     "@opam/cppo@opam:1.6.7@c28ac3ae": {
       "id": "@opam/cppo@opam:1.6.7@c28ac3ae",
       "name": "@opam/cppo",
@@ -1007,57 +1038,6 @@
         "ocaml@4.12.0@d41d8cd9", "@opam/dune@opam:2.8.5@83fb0224",
         "@opam/base-unix@opam:base@87d0b2eb"
       ]
-    },
-    "@opam/conf-pkg-config@opam:2@de102891": {
-      "id": "@opam/conf-pkg-config@opam:2@de102891",
-      "name": "@opam/conf-pkg-config",
-      "version": "opam:2",
-      "source": {
-        "type": "install",
-        "source": [ "no-source:" ],
-        "opam": {
-          "name": "conf-pkg-config",
-          "version": "2",
-          "path": "esy.lock/opam/conf-pkg-config.2"
-        }
-      },
-      "overrides": [
-        {
-          "opamoverride":
-            "esy.lock/overrides/opam__s__conf_pkg_config_opam__c__2_opam_override"
-        }
-      ],
-      "dependencies": [
-        "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79@d41d8cd9",
-        "@esy-ocaml/substs@0.0.1@d41d8cd9"
-      ],
-      "devDependencies": []
-    },
-    "@opam/conf-libcurl@opam:1@a448c0a3": {
-      "id": "@opam/conf-libcurl@opam:1@a448c0a3",
-      "name": "@opam/conf-libcurl",
-      "version": "opam:1",
-      "source": {
-        "type": "install",
-        "source": [ "no-source:" ],
-        "opam": {
-          "name": "conf-libcurl",
-          "version": "1",
-          "path": "esy.lock/opam/conf-libcurl.1"
-        }
-      },
-      "overrides": [
-        {
-          "opamoverride":
-            "esy.lock/overrides/opam__s__conf_libcurl_opam__c__1_opam_override"
-        }
-      ],
-      "dependencies": [
-        "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79@d41d8cd9",
-        "@opam/conf-pkg-config@opam:2@de102891",
-        "@esy-ocaml/substs@0.0.1@d41d8cd9"
-      ],
-      "devDependencies": []
     },
     "@opam/cmdliner@opam:1.0.4@93208aac": {
       "id": "@opam/cmdliner@opam:1.0.4@93208aac",
