@@ -13,7 +13,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
 
@@ -51,9 +51,10 @@ jobs:
 
       - name: Install dependencies
         run: ./install-dependencies.sh
+        shell: bash
 
       - name: Build library
         run: esy build
 
       - name: Run BasicExample
-        run: esy @examples x BasicExample
+        run: esy '@examples' x BasicExample
