@@ -57,4 +57,4 @@ jobs:
         run: esy build
 
       - name: Run BasicExample
-        run: esy @examples x BasicExample
+        run: esy '@examples' x BasicExample
