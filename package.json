@@ -25,6 +25,7 @@
     "@opam/dune": "^2.8.2",
     "@opam/reason": "^3.7.0",
     "@revery/timber": "^2.0.0",
+    "esy-libcurl": "zbaylin/esy-libcurl#02fb459",
     "esy-ocurl": "zbaylin/esy-ocurl#d634f41"
   },
   "devDependencies": {

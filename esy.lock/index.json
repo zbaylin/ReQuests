@@ -1,5 +1,5 @@
 {
-  "checksum": "ac6be3e610e6e8b4d451b0cd5d4ac300",
+  "checksum": "0bb21c56a86e18d394a2592927e6d214",
   "root": "ReQuests@link-dev:./package.json",
   "node": {
     "ocaml@4.12.0@d41d8cd9": {
@@ -57,6 +57,7 @@
       "overrides": [],
       "dependencies": [
         "esy-ocurl@github:zbaylin/esy-ocurl#d634f41@d41d8cd9",
+        "esy-libcurl@github:zbaylin/esy-libcurl#02fb459@d41d8cd9",
         "@revery/timber@2.0.0@d41d8cd9", "@opam/reason@opam:3.7.0@191be014",
         "@opam/luv_unix@github:aantron/luv:luv_unix.opam#decdaad@d41d8cd9",
         "@opam/luv@github:aantron/luv:luv.opam#decdaad@d41d8cd9",
