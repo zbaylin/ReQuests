@@ -22,13 +22,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Install libcurl
+      - name: Install libcurl (Linux only)
         run: |
               if [ "$RUNNER_OS" == "Linux" ]; then
                 sudo apt-get install -y libcurl4-openssl-dev
-              elif [ "$RUNNER_OS" == "macOS" ]; then
-                brew install curl
-                brew link curl --force
               fi
         shell: bash
 
@@ -39,8 +36,7 @@ jobs:
           key: ${{ runner.OS }}-esy-dep-cache-${{ hashFiles('esy.lock/') }}
           restore-keys: |
             ${{ runner.OS }}-esy-dep-cache-
-
-
+      
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
@@ -58,3 +54,6 @@ jobs:
 
       - name: Run BasicExample
         run: esy '@examples' x BasicExample
+
+      - name: Run tests
+        run: esy '@tests' x TestRunner
