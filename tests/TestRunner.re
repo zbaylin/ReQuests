@@ -1,3 +1,5 @@
 ReQuests.init();
 
-RequestTests.Framework.cli();
+include RequestTests;
+
+Framework.cli();

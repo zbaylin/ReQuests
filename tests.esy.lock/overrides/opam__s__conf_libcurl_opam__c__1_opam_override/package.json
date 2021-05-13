@@ -1,6 +1,0 @@
-{
-  "build": "true",
-  "dependencies": {
-    "yarn-pkg-config": "esy-ocaml/yarn-pkg-config"
-  }
-}
