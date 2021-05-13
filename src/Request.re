@@ -17,10 +17,10 @@ type t = {
   followRedirects: bool,
   proxy: option(Proxy.t),
   timeout: int,
-  caCertPath: string,
+  caCertPath: option(string),
 };
 
-let defaultCACertPath = Sys.getenv("REQUESTS_CACERT_PATH");
+let defaultCACertPath = Sys.getenv_opt("REQUESTS_CACERT_PATH");
 
 let make =
     (
@@ -29,7 +29,7 @@ let make =
       ~followRedirects=false,
       ~proxy=?,
       ~timeout=0,
-      ~caCertPath=defaultCACertPath,
+      ~caCertPath=?,
       url,
     ) => {
   method,
@@ -38,7 +38,11 @@ let make =
   url,
   proxy,
   timeout,
-  caCertPath,
+  caCertPath:
+    switch (caCertPath) {
+    | Some(_) as s => s
+    | None => defaultCACertPath
+    },
 };
 
 let url = request => request.url;
@@ -87,7 +91,7 @@ let makeCurlHandle: t => Curl.t =
     Curl.set_timeout(handle, request.timeout);
 
     // CA Cert Path
-    Curl.set_cainfo(handle, request.caCertPath);
+    request.caCertPath |> Option.iter(Curl.set_cainfo(handle));
 
     handle;
   };
