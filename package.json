@@ -9,7 +9,8 @@
   "esy": {
     "build": "dune build -p ReQuests",
     "install": [
-      "esy-installer ReQuests.install"
+      "esy-installer ReQuests.install",
+      "bash -c \"cp #{esy-libcurl.bin}/*.dll \\'$cur__bin\\' #{os == 'windows' ? '' : '2>/dev/null || true'}\""
     ],
     "exportedEnv": {
       "REQUESTS_CACERT_PATH": {
