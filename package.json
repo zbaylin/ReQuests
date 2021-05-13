@@ -10,7 +10,13 @@
     "build": "dune build -p ReQuests",
     "install": [
       "esy-installer ReQuests.install"
-    ]
+    ],
+    "exportedEnv": {
+      "REQUESTS_CACERT_PATH": {
+        "val": "#{self.share}/ReQuests/cacert.pem",
+        "scope": "global"
+      }
+    }
   },
   "dependencies": {
     "@opam/luv": "*",

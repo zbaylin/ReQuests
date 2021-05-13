@@ -49,6 +49,7 @@ module Request: {
       ~followRedirects: bool=?,
       ~proxy: Proxy.t=?,
       ~timeout: int=?,
+      ~caCertPath: string=?,
       string
     ) =>
     t;
