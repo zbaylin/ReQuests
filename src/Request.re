@@ -21,6 +21,7 @@ type t = {
   timeout: int,
   caCertPath: option(string),
   verbose: bool,
+  mime: list(MIME.t),
 };
 
 let defaultCACertPath = Sys.getenv_opt("REQUESTS_CACERT_PATH");
@@ -34,6 +35,7 @@ let make =
       ~timeout=0,
       ~caCertPath=?,
       ~verbose=false,
+      ~mime=[],
       url,
     ) => {
   method,
@@ -48,6 +50,7 @@ let make =
     | None => defaultCACertPath
     },
   verbose,
+  mime,
 };
 
 // START: Getters
@@ -174,6 +177,11 @@ let makeCurlHandle: t => Curl.t =
       Curl.set_verbose(handle, true);
       Curl.set_debugfunction(handle, debugFunc);
     };
+
+    // MIME
+    request.mime
+    |> List.map(mime => mime |> MIME.curlMIMEOfT)
+    |> Curl.set_mimepost(handle);
 
     handle;
   };

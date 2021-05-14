@@ -80,6 +80,7 @@ module Request: {
       ~timeout: int=?,
       ~caCertPath: string=?,
       ~verbose: bool=?,
+      ~mime: list(MIME.t)=?,
       string
     ) =>
     t;
