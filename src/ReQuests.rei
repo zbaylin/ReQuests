@@ -15,6 +15,35 @@ module Proxy: {
   let make: (~http: string=?, ~https: string=?, ~strictSSL: bool=?, unit) => t;
 };
 
+module MIME: {
+  type t;
+
+  type partData =
+    | Data({
+        name: option(string),
+        data: string,
+      })
+    | File({
+        name: option(string),
+        path: string,
+      });
+  type encoding =
+    | EightBit
+    | SevenBit
+    | Binary
+    | QuotedPrintable
+    | Base64;
+
+  let make:
+    (
+      ~encoding: option(encoding)=?,
+      ~subparts: list(t)=?,
+      ~headers: list(string)=?,
+      partData
+    ) =>
+    t;
+};
+
 module Request: {
   /**
     The various types of HTTP/HTTPS requests.
