@@ -179,9 +179,12 @@ let makeCurlHandle: t => Curl.t =
     };
 
     // MIME
-    request.mime
-    |> List.map(mime => mime |> MIME.curlMIMEOfT)
-    |> Curl.set_mimepost(handle);
+    // Setting the MIME data will override the method, so only do it if it's a POST
+    if (request.method == `POST) {
+      request.mime
+      |> List.map(mime => mime |> MIME.curlMIMEOfT)
+      |> Curl.set_mimepost(handle);
+    };
 
     handle;
   };
