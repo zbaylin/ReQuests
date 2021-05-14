@@ -4,7 +4,9 @@ module Log = (val Timber.Log.withNamespace("ReQuests.BasicExample"));
 
 let () = {
   Timber.App.enable(Timber.Reporter.console(~enableColors=true, ()));
+  Timber.App.setLevel(Timber.Level.debug);
   ReQuests.init();
+
   let onResponse = (response: Response.t) =>
     switch (response) {
     | Ok(response) =>
@@ -35,6 +37,7 @@ let () = {
     ~onResponse,
     Request.make(
       ~headers=["Client: ReQuests"],
+      ~verbose=true,
       "https://httpbin.org/headers",
     ),
   );

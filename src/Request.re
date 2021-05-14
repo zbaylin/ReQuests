@@ -1,3 +1,5 @@
+module Log = (val Timber.Log.withNamespace("ReQuests.Request"));
+
 type method = [
   | `GET
   | `POST
@@ -18,6 +20,7 @@ type t = {
   proxy: option(Proxy.t),
   timeout: int,
   caCertPath: option(string),
+  verbose: bool,
 };
 
 let defaultCACertPath = Sys.getenv_opt("REQUESTS_CACERT_PATH");
@@ -30,6 +33,7 @@ let make =
       ~proxy=?,
       ~timeout=0,
       ~caCertPath=?,
+      ~verbose=false,
       url,
     ) => {
   method,
@@ -43,9 +47,81 @@ let make =
     | Some(_) as s => s
     | None => defaultCACertPath
     },
+  verbose,
 };
 
+// START: Getters
 let url = request => request.url;
+// END: Getters
+
+let debugFunc = (handle, debugType, data) =>
+  switch (debugType) {
+  | Curl.DEBUGTYPE_TEXT =>
+    Log.debugf(f =>
+      f(
+        "Request[%s, %s] TEXT: %s",
+        Curl.get_private(handle),
+        Curl.get_effectiveurl(handle),
+        data,
+      )
+    )
+  | Curl.DEBUGTYPE_HEADER_IN =>
+    Log.debugf(f =>
+      f(
+        "Request[%s, %s] ⭠ HEADER IN",
+        Curl.get_private(handle),
+        Curl.get_effectiveurl(handle),
+      )
+    )
+  | Curl.DEBUGTYPE_HEADER_OUT =>
+    Log.debugf(f =>
+      f(
+        "Request[%s, %s] ⭢ HEADER OUT",
+        Curl.get_private(handle),
+        Curl.get_effectiveurl(handle),
+      )
+    )
+  | Curl.DEBUGTYPE_DATA_IN =>
+    Log.debugf(f =>
+      f(
+        "Request[%s, %s] ⭠ DATA IN",
+        Curl.get_private(handle),
+        Curl.get_effectiveurl(handle),
+      )
+    )
+  | Curl.DEBUGTYPE_DATA_OUT =>
+    Log.debugf(f =>
+      f(
+        "Request[%s, %s] ⭢ DATA OUT",
+        Curl.get_private(handle),
+        Curl.get_effectiveurl(handle),
+      )
+    )
+  | Curl.DEBUGTYPE_SSL_DATA_IN =>
+    Log.debugf(f =>
+      f(
+        "Request[%s, %s] ⭠ SSL DATA IN",
+        Curl.get_private(handle),
+        Curl.get_effectiveurl(handle),
+      )
+    )
+  | Curl.DEBUGTYPE_SSL_DATA_OUT =>
+    Log.debugf(f =>
+      f(
+        "Request[%s, %s] ⭢ SSL DATA OUT",
+        Curl.get_private(handle),
+        Curl.get_effectiveurl(handle),
+      )
+    )
+  | Curl.DEBUGTYPE_END =>
+    Log.debugf(f =>
+      f(
+        "Request[%s, %s] 🛑 END",
+        Curl.get_private(handle),
+        Curl.get_effectiveurl(handle),
+      )
+    )
+  };
 
 let makeCurlHandle: t => Curl.t =
   request => {
@@ -92,6 +168,12 @@ let makeCurlHandle: t => Curl.t =
 
     // CA Cert Path
     request.caCertPath |> Option.iter(Curl.set_cainfo(handle));
+
+    // Debug
+    if (request.verbose) {
+      Curl.set_verbose(handle, true);
+      Curl.set_debugfunction(handle, debugFunc);
+    };
 
     handle;
   };

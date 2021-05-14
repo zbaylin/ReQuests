@@ -50,6 +50,7 @@ module Request: {
       ~proxy: Proxy.t=?,
       ~timeout: int=?,
       ~caCertPath: string=?,
+      ~verbose: bool=?,
       string
     ) =>
     t;
