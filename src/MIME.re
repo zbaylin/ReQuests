@@ -22,6 +22,13 @@ and encoding =
   | QuotedPrintable
   | Base64;
 
+let make = (~encoding=Some(Base64), ~subparts=[], ~headers=[], data) => {
+  data,
+  encoding,
+  subparts,
+  headers,
+};
+
 let curlMIMEDataOfPartData = partData =>
   switch (partData) {
   | Data({name: Some(_) as name, data}) =>
