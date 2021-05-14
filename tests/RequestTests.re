@@ -39,4 +39,35 @@ describe("Request", ({test, _}) => {
 
     Luv.Loop.run(~mode=`DEFAULT, ()) |> ignore;
   });
+
+  test("MIME", ({expect, _}) => {
+    let onResponse = response => {
+      expect.result(response).toBeOk();
+
+      let body = response |> Result.get_ok |> Response.body;
+      let expected = ("Client", `String("ReQuests"));
+
+      let contains =
+        switch (Yojson.Safe.from_string(body)) {
+        | `Assoc([_, _, _, ("form", `Assoc(assoc)), ..._]) =>
+          List.mem(expected, assoc)
+        | _ => false
+        };
+
+      expect.bool(contains).toBeTrue();
+    };
+
+    let request =
+      Request.make(
+        ~method=`POST,
+        ~mime=[
+          MIME.make(MIME.Data({name: Some("Client"), data: "ReQuests"})),
+        ],
+        "https://httpbin.org/post",
+      );
+
+    ReQuests.perform(~onResponse, request);
+
+    Luv.Loop.run(~mode=`DEFAULT, ()) |> ignore;
+  });
 });

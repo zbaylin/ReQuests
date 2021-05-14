@@ -15,6 +15,50 @@ module Proxy: {
   let make: (~http: string=?, ~https: string=?, ~strictSSL: bool=?, unit) => t;
 };
 
+module MIME: {
+  /**
+    An abstract type that represents MIME data.
+    Can be constructed with [make].
+  */
+  type t;
+
+  /**
+    The two types of MIME data, with optional names.
+  */
+  type partData =
+    | Data({
+        name: option(string),
+        data: string,
+      })
+    | File({
+        name: option(string),
+        path: string,
+      });
+
+  /**
+    The types of encoding. Note that if you want no encoding,
+    pass [None] to [Request.make]
+  */
+  type encoding =
+    | EightBit
+    | SevenBit
+    | Binary
+    | QuotedPrintable
+    | Base64;
+
+  /**
+    Constructs a MIME.t.
+  */
+  let make:
+    (
+      ~encoding: option(encoding)=?,
+      ~subparts: list(t)=?,
+      ~headers: list(string)=?,
+      partData
+    ) =>
+    t;
+};
+
 module Request: {
   /**
     The various types of HTTP/HTTPS requests.
@@ -51,6 +95,7 @@ module Request: {
       ~timeout: int=?,
       ~caCertPath: string=?,
       ~verbose: bool=?,
+      ~mime: list(MIME.t)=?,
       string
     ) =>
     t;

@@ -37,8 +37,17 @@ let () = {
     ~onResponse,
     Request.make(
       ~headers=["Client: ReQuests"],
-      ~verbose=true,
       "https://httpbin.org/headers",
+    ),
+  );
+  ReQuests.perform(
+    ~onResponse,
+    Request.make(
+      ~method=`POST,
+      ~mime=[
+        MIME.make(MIME.Data({name: Some("Client"), data: "ReQuests"})),
+      ],
+      "https://httpbin.org/post",
     ),
   );
 
