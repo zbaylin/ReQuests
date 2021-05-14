@@ -16,8 +16,15 @@ module Proxy: {
 };
 
 module MIME: {
+  /**
+    An abstract type that represents MIME data.
+    Can be constructed with [make].
+  */
   type t;
 
+  /**
+    The two types of MIME data, with optional names.
+  */
   type partData =
     | Data({
         name: option(string),
@@ -27,6 +34,11 @@ module MIME: {
         name: option(string),
         path: string,
       });
+
+  /**
+    The types of encoding. Note that if you want no encoding,
+    pass [None] to [Request.make]
+  */
   type encoding =
     | EightBit
     | SevenBit
@@ -34,6 +46,9 @@ module MIME: {
     | QuotedPrintable
     | Base64;
 
+  /**
+    Constructs a MIME.t.
+  */
   let make:
     (
       ~encoding: option(encoding)=?,
