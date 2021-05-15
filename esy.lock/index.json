@@ -1,5 +1,5 @@
 {
-  "checksum": "ac6be3e610e6e8b4d451b0cd5d4ac300",
+  "checksum": "fc983cb1af2733abd4dbfa35f85bb6c7",
   "root": "ReQuests@link-dev:./package.json",
   "node": {
     "ocaml@4.12.0@d41d8cd9": {
@@ -16,30 +16,33 @@
       "dependencies": [],
       "devDependencies": []
     },
-    "esy-ocurl@github:zbaylin/esy-ocurl#d634f41@d41d8cd9": {
-      "id": "esy-ocurl@github:zbaylin/esy-ocurl#d634f41@d41d8cd9",
+    "esy-ocurl@0.9.2@d41d8cd9": {
+      "id": "esy-ocurl@0.9.2@d41d8cd9",
       "name": "esy-ocurl",
-      "version": "github:zbaylin/esy-ocurl#d634f41",
+      "version": "0.9.2",
       "source": {
         "type": "install",
-        "source": [ "github:zbaylin/esy-ocurl#d634f41" ]
+        "source": [
+          "archive:https://registry.npmjs.org/esy-ocurl/-/esy-ocurl-0.9.2.tgz#sha1:d732107caf24f8726ec047b3487f69610c59d954"
+        ]
       },
       "overrides": [],
       "dependencies": [
-        "esy-libcurl@github:zbaylin/esy-libcurl#02fb459@d41d8cd9",
-        "@opam/ocamlfind@opam:1.9.1@b748edf6",
+        "esy-libcurl@7.76.1@d41d8cd9", "@opam/ocamlfind@opam:1.9.1@b748edf6",
         "@opam/dune-configurator@opam:2.8.5@eae07e15",
         "@opam/dune@opam:2.8.5@83fb0224"
       ],
       "devDependencies": []
     },
-    "esy-libcurl@github:zbaylin/esy-libcurl#02fb459@d41d8cd9": {
-      "id": "esy-libcurl@github:zbaylin/esy-libcurl#02fb459@d41d8cd9",
+    "esy-libcurl@7.76.1@d41d8cd9": {
+      "id": "esy-libcurl@7.76.1@d41d8cd9",
       "name": "esy-libcurl",
-      "version": "github:zbaylin/esy-libcurl#02fb459",
+      "version": "7.76.1",
       "source": {
         "type": "install",
-        "source": [ "github:zbaylin/esy-libcurl#02fb459" ]
+        "source": [
+          "archive:https://registry.npmjs.org/esy-libcurl/-/esy-libcurl-7.76.1.tgz#sha1:d163467df412e6bab8ce41ef186a687d4f2b6e5d"
+        ]
       },
       "overrides": [],
       "dependencies": [],
@@ -56,8 +59,8 @@
       },
       "overrides": [],
       "dependencies": [
-        "esy-ocurl@github:zbaylin/esy-ocurl#d634f41@d41d8cd9",
-        "@revery/timber@2.0.0@d41d8cd9", "@opam/reason@opam:3.7.0@191be014",
+        "esy-ocurl@0.9.2@d41d8cd9", "@revery/timber@2.0.0@d41d8cd9",
+        "@opam/reason@opam:3.7.0@191be014",
         "@opam/luv_unix@github:aantron/luv:luv_unix.opam#decdaad@d41d8cd9",
         "@opam/luv@github:aantron/luv:luv.opam#decdaad@d41d8cd9",
         "@opam/dune@opam:2.8.5@83fb0224"

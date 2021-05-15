@@ -24,7 +24,7 @@
     "@opam/dune": "^2.8.2",
     "@opam/reason": "^3.7.0",
     "@revery/timber": "^2.0.0",
-    "esy-ocurl": "zbaylin/esy-ocurl#d634f41"
+    "esy-ocurl": "^0.9.2"
   },
   "devDependencies": {
     "@opam/odoc": "^1.5.2",
