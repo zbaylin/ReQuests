@@ -173,6 +173,76 @@ module Response: {
     Get the download speed of the transfer
   */
   let downloadSpeed: response => float;
+
+  module Code: {
+    module HTTP: {
+      let continue: int;
+      let switchingProtocol: int;
+      let processing: int;
+      let earlyHints: int;
+
+      let ok: int;
+      let created: int;
+      let accepted: int;
+      let nonAuthoritativeInformation: int;
+      let noContent: int;
+      let resetContent: int;
+      let partialContent: int;
+      let multiStatus: int;
+      let alreadyReported: int;
+      let imUsed: int;
+
+      let mutlipleChoice: int;
+      let movedPermanently: int;
+      let found: int;
+      let seeOther: int;
+      let notModified: int;
+      let temporaryRedirect: int;
+      let permanentRedirect: int;
+
+      let badRequest: int;
+      let unauthorized: int;
+      let paymentRequired: int;
+      let forbidden: int;
+      let notFound: int;
+      let methodNotAllowed: int;
+      let notAcceptable: int;
+      let proxyAuthenticationRequired: int;
+      let requestTimeout: int;
+      let conflict: int;
+      let gone: int;
+      let lengthRequired: int;
+      let preconditionFailed: int;
+      let payploadTooLarge: int;
+      let uriTooLong: int;
+      let unsupportedMediaType: int;
+      let rangeNotSatisfiable: int;
+      let expectationFailed: int;
+      let imATeapot: int;
+      let misdirectedRequest: int;
+      let unprocessableEntity: int;
+      let locked: int;
+      let failedDependency: int;
+      let tooEarly: int;
+      let upgradeRequired: int;
+      let preconditionRequired: int;
+      let tooManyRequests: int;
+      let requestHeaderFieldsTooLarge: int;
+      let unavailableForLegalReasons: int;
+
+      let internalServerError: int;
+      let notImplemented: int;
+      let badGateway: int;
+      let serviceUnavailable: int;
+      let gatewayTimeout: int;
+      let httpVersionNotSupported: int;
+      let variantAlsoNegotiates: int;
+      let insufficientStorage: int;
+      let loopDetected: int;
+      let notExtended: int;
+      let networkAuthenticationRequired: int;
+    };
+  };
 };
 
 /**

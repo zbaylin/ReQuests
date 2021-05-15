@@ -7,7 +7,7 @@ describe("Response", ({test, _}) => {
       expect.result(response).toBeOk();
 
       let responseCode = response |> Result.get_ok |> Response.responseCode;
-      expect.int(responseCode).toBe(200);
+      expect.int(responseCode).toBe(Response.Code.HTTP.ok);
     };
 
     let request = Request.make("https://httpbin.org/anything");
